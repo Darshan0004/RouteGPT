@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const body: { message: string; disruptions?: string } = await req.json();
     const message = body.message;
     const disruptions = body.disruptions || "None";
 
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     // =========================
     // 🚀 CALL GEMINI WITH RETRY
     // =========================
-    async function callGemini() {
+    const callGemini = async () => {
       let attempt = 0;
       const maxRetries = 3;
 

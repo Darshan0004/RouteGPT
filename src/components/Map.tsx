@@ -1,12 +1,13 @@
 "use client";
 
+import { Shipment, Disruption } from "@/types";
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Polyline, Circle, useMap } from "react-leaflet";
 import { shipments } from "../app/data/shipments";
 import { getShipmentRisk } from "@/utils/risk";
 
 // 🔥 NEW COMPONENT: AUTO ZOOM
-function FlyToSelected({ selectedShipment }: any) {
+function FlyToSelected({ selectedShipment }: { selectedShipment: Shipment | null }) {
   const map = useMap();
 
   useEffect(() => {
@@ -30,9 +31,9 @@ export default function Map({
   rerouted = false,
   selectedShipment = null,
 }: {
-  activeDisruptions: any[];
+  activeDisruptions: Disruption[];
   rerouted?: boolean;
-  selectedShipment?: any;
+  selectedShipment?: Shipment | null;
 }) {
   const [mounted, setMounted] = useState(false);
 

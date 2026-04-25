@@ -1,4 +1,6 @@
-export const disruptions = [
+import { Disruption } from "@/types";
+
+export const disruptions: Disruption[] = [
   {
     id: "D1",
     name: "Cyclone - Bay of Bengal",

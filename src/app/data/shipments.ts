@@ -1,4 +1,6 @@
-export const shipments = [
+import { Shipment } from "@/types";
+
+export const shipments: Shipment[] = [
     {
         id: "SHP-001",
         origin: { name: "Shanghai", lat: 31.2304, lng: 121.4737 },

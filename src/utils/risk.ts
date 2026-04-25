@@ -1,3 +1,5 @@
+import { Shipment, Disruption } from "@/types";
+
 const calculateDistance = (
   lat1: number,
   lng1: number,
@@ -20,7 +22,7 @@ const calculateDistance = (
   return R * c;
 };
 
-const isRouteAffected = (shipment: any, disruption: any) => {
+const isRouteAffected = (shipment: Shipment, disruption: Disruption): "Low" | "Medium" | "High" => {
   const points = [
     { lat: shipment.origin.lat, lng: shipment.origin.lng },
     { lat: shipment.destination.lat, lng: shipment.destination.lng },
@@ -58,12 +60,12 @@ const isRouteAffected = (shipment: any, disruption: any) => {
   return "Low";
 };
 
-export const getShipmentRisk = (shipment: any, activeDisruptions: any[]) => {
+export const getShipmentRisk = (shipment: Shipment, activeDisruptions: Disruption[]): "Low" | "Medium" | "High" => {
   if (!activeDisruptions || activeDisruptions.length === 0) {
     return "Low"; 
   }
 
-  let finalRisk = "Low";
+  let finalRisk: "Low" | "Medium" | "High" = "Low";
 
   activeDisruptions.forEach((d) => {
     const risk = isRouteAffected(shipment, d);

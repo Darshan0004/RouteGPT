@@ -1,5 +1,6 @@
 "use client";
 
+import { Shipment, Disruption } from "@/types";
 import { useState, useEffect, useMemo } from "react";
 import ShipmentList from "../../components/ShipmentList";
 import dynamic from "next/dynamic";
@@ -8,7 +9,7 @@ import { getShipmentRisk } from "@/utils/risk";
 
 const MapComponent = dynamic(() => import("../../components/Map"), { ssr: false });
 
-export function calculateOptimizationMetrics(shipments: any[], disruptions: any[], rerouted: boolean) {
+function calculateOptimizationMetrics(shipments: Shipment[], disruptions: Disruption[]) {
   let highRisk = 0;
   let mediumRisk = 0;
 
@@ -35,10 +36,10 @@ export default function Page() {
   // =========================
   // 🔥 STATE
   // =========================
-  const [activeDisruptions, setActiveDisruptions] = useState<any[]>([]);
+  const [activeDisruptions, setActiveDisruptions] = useState<Disruption[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [rerouted, setRerouted] = useState(false);
-  const [selectedShipment, setSelectedShipment] = useState<any>(null);
+  const [selectedShipment, setSelectedShipment] = useState<Shipment | null>(null);
 
   const [messages, setMessages] = useState<string[]>([
     "Hello! I can help you manage your shipments on the map.",
@@ -47,8 +48,8 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
 
   const optimizationMetrics = useMemo(() => {
-    return calculateOptimizationMetrics(shipments, activeDisruptions, rerouted);
-  }, [activeDisruptions, rerouted]);
+    return calculateOptimizationMetrics(shipments, activeDisruptions);
+  }, [activeDisruptions]);
 
   // =========================
   // 🔥 CHECK HIGH RISK
@@ -140,7 +141,7 @@ export default function Page() {
   // 🔥 APPLY DISRUPTIONS
   // =========================
   const handleApply = async () => {
-    const disruptions: any[] = [];
+    const disruptions: Disruption[] = [];
 
     if (selectedTypes.includes("cyclone")) {
       disruptions.push({
@@ -185,10 +186,6 @@ export default function Page() {
     }
 
     const activeNames = disruptions.map((d) => d.name).join(" & ");
-    const affected = shipments
-      .filter((s) => getShipmentRisk(s, disruptions) !== "Low")
-      .map((s) => s.id);
-    const shipmentIds = affected.join(", ") || "None";
 
     setMessages((prev) => {
       const newMsg = `⚠️ Evaluating: ${activeNames}...`;

@@ -1,5 +1,6 @@
 "use client";
 
+import { Shipment, Disruption } from "@/types";
 import { shipments } from "../app/data/shipments";
 import { getShipmentRisk } from "@/utils/risk";
 
@@ -8,9 +9,9 @@ export default function ShipmentList({
   onSelect,
   selectedShipment,
 }: {
-  activeDisruptions: any[];
-  onSelect?: (shipment: any) => void;
-  selectedShipment?: any;
+  activeDisruptions: Disruption[];
+  onSelect?: (shipment: Shipment) => void;
+  selectedShipment?: Shipment | null;
 }) {
   return (
     <>

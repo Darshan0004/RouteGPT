@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useMotionValue, Variants } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export default function LandingPage() {
   const router = useRouter();
@@ -31,16 +31,16 @@ export default function LandingPage() {
   }, [mouseX, mouseY]);
 
   // ANIMATION VARIANTS
-  const fadeUp = {
+  const fadeUp: Variants = {
     hidden: { opacity: 0, y: 40 },
     show: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 0.8, ease: "easeOut" }
     }
   };
 
-  const stagger = {
+  const stagger: Variants = {
     hidden: {},
     show: {
       transition: {
